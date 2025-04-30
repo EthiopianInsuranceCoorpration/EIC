@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Admin } from './entities/admin.entity';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { AdminType } from '../common/enums/admin-type.enum';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class AdminService {
   constructor(
     @InjectRepository(Admin)
     private readonly adminRepository: Repository<Admin>,
-  ) {}
+  ) { }
 
   async createAdmin(data: {
     username: string;
@@ -61,7 +61,7 @@ export class AdminService {
 
     // Find the insurance admin
     const insuranceAdmin = await this.adminRepository.findOne({
-      where: { 
+      where: {
         id: resetPasswordDto.adminId,
         adminType: AdminType.INSURANCE_ADMIN
       }
@@ -82,8 +82,8 @@ export class AdminService {
 
   async findInsuranceAdmins(): Promise<Admin[]> {
     return this.adminRepository.find({
-      where: { 
-        adminType: AdminType.INSURANCE_ADMIN 
+      where: {
+        adminType: AdminType.INSURANCE_ADMIN
       },
       relations: ['insuranceCompany'],
       select: {
@@ -107,7 +107,7 @@ export class AdminService {
 
   async findInsuranceAdminsByCompany(insuranceCompanyId: string): Promise<Admin[]> {
     return this.adminRepository.find({
-      where: { 
+      where: {
         adminType: AdminType.INSURANCE_ADMIN,
         insuranceCompanyId
       },

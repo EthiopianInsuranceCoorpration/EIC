@@ -1,7 +1,7 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { Provider } from './entities/provider.entity';
 import { Admin } from '../admin/entities/admin.entity';
 import { CreateProviderDto } from './dto/create-provider.dto';
@@ -18,7 +18,7 @@ export class ProvidersService {
     private readonly providerRepository: Repository<Provider>,
     @InjectRepository(Admin)
     private readonly adminRepository: Repository<Admin>,
-  ) {}
+  ) { }
 
   async create(
     insuranceCompanyId: string,

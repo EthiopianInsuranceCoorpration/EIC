@@ -4,7 +4,7 @@ import { Repository, FindOptionsWhere, ILike } from 'typeorm';
 import { Member } from './entities/member.entity';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { PolicyProduct } from '../policy/entities/policy-product.entity';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class MembersService {
     private readonly memberRepository: Repository<Member>,
     @InjectRepository(PolicyProduct)
     private readonly policyProductRepository: Repository<PolicyProduct>,
-  ) {}
+  ) { }
 
   async create(createMemberDto: CreateMemberDto): Promise<Member> {
     // Check if username or email already exists
@@ -201,7 +201,7 @@ export class MembersService {
 
   async update(id: string, updateMemberDto: Partial<CreateMemberDto>): Promise<Member> {
     const member = await this.findOne(id);
-    
+
     if (updateMemberDto.policyProductId) {
       const policyProduct = await this.policyProductRepository.findOne({
         where: { id: updateMemberDto.policyProductId }
@@ -210,7 +210,7 @@ export class MembersService {
         member.policyProduct = policyProduct;
       }
     }
-    
+
     // Check if username or email is being changed and if it already exists
     if (updateMemberDto.username && updateMemberDto.username !== member.username) {
       const existingMember = await this.memberRepository.findOne({
@@ -260,111 +260,111 @@ export class MembersService {
 
   async addDependent(id: string, dependentData: any): Promise<Member> {
     const member = await this.findOne(id);
-    
+
     if (!member.dependents) {
       member.dependents = [];
     }
-    
+
     member.dependents.push(dependentData);
     return this.memberRepository.save(member);
   }
 
   async removeDependent(id: string, dependentIndex: number): Promise<Member> {
     const member = await this.findOne(id);
-    
+
     if (!member.dependents || member.dependents.length <= dependentIndex) {
       throw new BadRequestException(`Dependent at index ${dependentIndex} not found`);
     }
-    
+
     member.dependents.splice(dependentIndex, 1);
     return this.memberRepository.save(member);
   }
 
   async updateDependent(id: string, dependentIndex: number, dependentData: any): Promise<Member> {
     const member = await this.findOne(id);
-    
+
     if (!member.dependents || member.dependents.length <= dependentIndex) {
       throw new BadRequestException(`Dependent at index ${dependentIndex} not found`);
     }
-    
+
     member.dependents[dependentIndex] = {
       ...member.dependents[dependentIndex],
       ...dependentData,
     };
-    
+
     return this.memberRepository.save(member);
   }
 
   async addMedicalHistory(id: string, medicalHistoryData: any): Promise<Member> {
     const member = await this.findOne(id);
-    
+
     if (!member.medicalHistory) {
       member.medicalHistory = [];
     }
-    
+
     member.medicalHistory.push(medicalHistoryData);
     return this.memberRepository.save(member);
   }
 
   async updateBenefits(id: string, benefitsData: any): Promise<Member> {
     const member = await this.findOne(id);
-    
+
     member.benefits = {
       ...member.benefits,
       ...benefitsData,
     };
-    
+
     return this.memberRepository.save(member);
   }
 
   async updateCoverageDates(
-    id: string, 
-    startDate?: Date, 
+    id: string,
+    startDate?: Date,
     endDate?: Date
   ): Promise<Member> {
     const member = await this.findOne(id);
-    
+
     if (startDate) {
       member.coverageStartDate = startDate;
     }
-    
+
     if (endDate) {
       member.coverageEndDate = endDate;
     }
-    
+
     return this.memberRepository.save(member);
   }
 
   async isEligible(id: string): Promise<{ eligible: boolean; reason?: string }> {
     const member = await this.findOne(id);
-    
+
     // Check if member is active
     if (!member.isActive) {
       return { eligible: false, reason: 'Member is not active' };
     }
-    
+
     // Check if coverage dates are valid
     const currentDate = new Date();
-    
+
     if (member.coverageStartDate && member.coverageStartDate > currentDate) {
-      return { 
-        eligible: false, 
-        reason: `Coverage starts on ${member.coverageStartDate.toISOString().split('T')[0]}` 
+      return {
+        eligible: false,
+        reason: `Coverage starts on ${member.coverageStartDate.toISOString().split('T')[0]}`
       };
     }
-    
+
     if (member.coverageEndDate && member.coverageEndDate < currentDate) {
-      return { 
-        eligible: false, 
-        reason: `Coverage ended on ${member.coverageEndDate.toISOString().split('T')[0]}` 
+      return {
+        eligible: false,
+        reason: `Coverage ended on ${member.coverageEndDate.toISOString().split('T')[0]}`
       };
     }
-    
+
     // Check if policy product exists
     if (!member.policyProductId) {
       return { eligible: false, reason: 'No active policy product' };
     }
-    
+
     return { eligible: true };
   }
 }

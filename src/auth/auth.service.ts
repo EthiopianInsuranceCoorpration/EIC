@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException, ConflictException, NotFoundException
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import { Member } from '../members/entities/member.entity';
 import { Provider } from '../providers/entities/provider.entity';
@@ -29,7 +29,7 @@ export class AuthService {
     @InjectRepository(Admin)
     private adminRepository: Repository<Admin>,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async validateUser(username: string, pass: string) {
     // Try to find admin first since we know it's an admin login
@@ -132,7 +132,7 @@ export class AuthService {
   async login(loginDto: LoginDto) {
     // Find user and validate credentials
     const user = await this.validateUser(loginDto.username, loginDto.password);
-    
+
     // Update last login time
     user.lastLoginAt = new Date();
     switch (user.userType) {
@@ -189,7 +189,7 @@ export class AuthService {
     }
 
     const hashedPassword = await bcrypt.hash(dto.password, 10);
-    
+
     const member = new Member();
     member.username = dto.username;
     member.email = dto.email || '';

@@ -12,6 +12,7 @@ import
   IsOptional,
   IsDate,
   IsUUID,
+  isNotEmpty,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PolicyType } from '../enums/policy-type.enum';
@@ -206,6 +207,10 @@ class PremiumModifiersDto
 
 export class CreatePolicyProductDto
 {
+  @ApiProperty()
+  @IsUUID()
+  insuranceCompany: string;
+
   @ApiProperty({ description: 'Product code' })
   @IsString()
   @IsNotEmpty()

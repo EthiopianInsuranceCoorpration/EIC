@@ -7,10 +7,9 @@ import { UpdateInsuranceCompanyDto } from './dto/update-insurance-company.dto';
 import { Admin } from '../admin/entities/admin.entity';
 import { UserType } from '../common/enums/user-type.enum';
 import { AdminType } from '../common/enums/admin-type.enum';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
-interface InsuranceCompanyWithAdmin extends InsuranceCompany
-{
+interface InsuranceCompanyWithAdmin extends InsuranceCompany {
   adminCredentials: {
     username: string;
     password: string;
@@ -19,8 +18,7 @@ interface InsuranceCompanyWithAdmin extends InsuranceCompany
 }
 
 @Injectable()
-export class InsuranceService
-{
+export class InsuranceService {
   constructor(
     @InjectRepository(InsuranceCompany)
     private insuranceCompanyRepository: Repository<InsuranceCompany>,
@@ -28,8 +26,7 @@ export class InsuranceService
     private adminRepository: Repository<Admin>,
   ) { }
 
-  async create(createDto: CreateInsuranceCompanyDto): Promise<InsuranceCompany>
-  {
+  async create(createDto: CreateInsuranceCompanyDto): Promise<InsuranceCompany> {
     const { adminCredentials, ...companyData } = createDto;
 
     // Check for existing company
@@ -40,8 +37,7 @@ export class InsuranceService
       ]
     });
 
-    if (existingCompany)
-    {
+    if (existingCompany) {
       throw new ConflictException('Insurance company with this name or code already exists');
     }
 
@@ -54,8 +50,7 @@ export class InsuranceService
     const savedCompany = await this.insuranceCompanyRepository.save(company);
 
     // Create admin for the company
-    try
-    {
+    try {
       const admin = this.adminRepository.create({
         ...adminCredentials,
         password: await bcrypt.hash(adminCredentials.password, 10),
@@ -66,8 +61,7 @@ export class InsuranceService
       });
 
       await this.adminRepository.save(admin);
-    } catch (error)
-    {
+    } catch (error) {
       // If admin creation fails, rollback company creation
       await this.insuranceCompanyRepository.remove(savedCompany);
       throw error;
@@ -76,13 +70,11 @@ export class InsuranceService
     return savedCompany;
   }
 
-  async findAll(): Promise<InsuranceCompany[]>
-  {
+  async findAll(): Promise<InsuranceCompany[]> {
     return this.insuranceCompanyRepository.find();
   }
 
-  async findOne(id: string): Promise<InsuranceCompany>
-  {
+  async findOne(id: string): Promise<InsuranceCompany> {
     const company = await this.insuranceCompanyRepository.findOne({
       where: { id },
       relations: {
@@ -93,53 +85,45 @@ export class InsuranceService
       }
     });
 
-    if (!company)
-    {
+    if (!company) {
       throw new NotFoundException('Insurance company not found');
     }
 
     return company;
   }
 
-  async findByCode(code: string): Promise<InsuranceCompany>
-  {
+  async findByCode(code: string): Promise<InsuranceCompany> {
     const company = await this.insuranceCompanyRepository.findOne({
       where: { code },
     });
 
-    if (!company)
-    {
+    if (!company) {
       throw new NotFoundException('Insurance company not found');
     }
 
     return company;
   }
 
-  async update(id: string, updateDto: UpdateInsuranceCompanyDto): Promise<InsuranceCompany>
-  {
+  async update(id: string, updateDto: UpdateInsuranceCompanyDto): Promise<InsuranceCompany> {
     const company = await this.findOne(id);
 
     // Check for unique constraints if updating these fields
-    if (updateDto.name || updateDto.code || updateDto.email)
-    {
+    if (updateDto.name || updateDto.code || updateDto.email) {
       const whereConditions: FindOptionsWhere<InsuranceCompany>[] = [];
 
-      if (updateDto.name)
-      {
+      if (updateDto.name) {
         whereConditions.push({
           name: updateDto.name,
           id: Not(id),
         } as FindOptionsWhere<InsuranceCompany>);
       }
-      if (updateDto.code)
-      {
+      if (updateDto.code) {
         whereConditions.push({
           code: updateDto.code,
           id: Not(id),
         } as FindOptionsWhere<InsuranceCompany>);
       }
-      if (updateDto.email)
-      {
+      if (updateDto.email) {
         whereConditions.push({
           email: updateDto.email,
           id: Not(id),
@@ -150,8 +134,7 @@ export class InsuranceService
         where: whereConditions,
       });
 
-      if (existingCompany)
-      {
+      if (existingCompany) {
         throw new ConflictException('Insurance company with this name, code, or email already exists');
       }
     }
@@ -160,14 +143,12 @@ export class InsuranceService
     return this.insuranceCompanyRepository.save(company);
   }
 
-  async remove(id: string): Promise<void>
-  {
+  async remove(id: string): Promise<void> {
     const company = await this.findOne(id);
     await this.insuranceCompanyRepository.remove(company);
   }
 
-  async toggleActive(id: string): Promise<InsuranceCompany>
-  {
+  async toggleActive(id: string): Promise<InsuranceCompany> {
     const company = await this.findOne(id);
     company.isActive = !company.isActive;
     return this.insuranceCompanyRepository.save(company);
