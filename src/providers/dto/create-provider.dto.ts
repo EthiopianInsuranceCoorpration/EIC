@@ -1,4 +1,4 @@
-import { IsString, IsEnum, IsOptional, IsDate, ValidateNested, IsDefined, IsBoolean, IsArray, IsNotEmpty, IsEmail } from 'class-validator';
+import { IsString,IsUUID, IsEnum, IsOptional, IsDate, ValidateNested, IsDefined, IsBoolean, IsArray, IsNotEmpty, IsEmail } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ProviderCategory } from '../enums/provider-category.enum';
@@ -9,6 +9,9 @@ import { LocationDto } from './location.dto';
 import { OperatingHoursDto } from './operating-hours.dto';
 
 export class CreateProviderDto {
+  @ApiProperty()
+  @IsUUID()
+  insuranceCompany: string;
   @ApiProperty({ example: 'provider_username' })
   @IsString()
   @IsNotEmpty()
