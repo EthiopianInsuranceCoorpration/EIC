@@ -1,0 +1,310 @@
+//josonfor staf with provider management role
+{
+    "username": "fara9",
+    "email": "fara9@example.com",
+    "password": "Admin@123",
+    "firstName": "fara",
+    "lastName": "farat",
+    "phoneNumber": "+251912345678",
+    "employeeId": "EMP123",
+    "role": "PROVIDER_MANAGEMENT",
+    "department": "Claims",
+    "position": "Claims Processor",
+    "insuranceCompanyId": "d7176cd3-280f-4901-b395-96f517a7afaf",
+    "supervisor": "Claims",
+    "permissions": {
+      "claims": {
+        "view": true,
+        "process": true,
+        "approve": false,
+        "deny": false
+      },
+      "providers": {
+        "view": true,
+        "create": true,
+        "modify": true,
+        "deactivate": true
+      }
+    }
+  }
+
+  //the staff with provider management role  and premistion to view and create provider
+  {
+    "username": "hamble1",
+    "email": "hamble@example.com",
+    "password": "Admin@123",
+    "firstName": "Dr.",
+    "lastName": "Smith",
+    "phoneNumber": "+251911234567",
+    "facilityName": "St. Paul Hospital",
+    "category": "HEALTH_FACILITY",
+    "facilityType": "PHARMACY",
+    "licenseNumber": "LIC123456",
+    "licenseExpiryDate": "2025-12-31",
+    "taxId": "TAX123450",
+    "location": {
+      "address": "string",
+      "city": "string",
+      "state": "string",
+      "country": "string",
+      "postalCode": "363728"
+    }
+  }
+
+  //json for creat new member
+
+
+  {
+    "username": "hamble",
+    "email": "H@gmail.com",
+    "password": "Hamble@123",
+    "firstName": "string",
+    "lastName": "string",
+    "phoneNumber": "string",
+    "policyNumber": "string",
+    "dateOfBirth": "2025-04-29T18:37:06.750Z",
+    "gender": "string",
+    "nationalId": "string",
+    "address": {
+      "street": "string",
+      "city": "string",
+      "state": "string",
+      "country": "string",
+      "postalCode": "string"
+    },
+    "dependents": [
+      {
+        "firstName": "string",
+        "lastName": "string",
+        "dateOfBirth": "2025-04-29T18:37:06.750Z",
+        "relationship": "string",
+        "gender": "string",
+        "nationalId": "string"
+      }
+    ],
+    "medicalHistory": [
+      {
+        "condition": "string",
+        "diagnosedDate": "2025-04-29T18:37:06.750Z",
+        "medications": [
+          "string"
+        ],
+        "notes": "string"
+      }
+    ],
+    "coverageStartDate": "2025-04-29T18:37:06.750Z",
+    "coverageEndDate": "2025-04-29T18:37:06.750Z",
+    "benefits": {
+      "planType": "string",
+      "coverageLevel": "string",
+      "deductible": 0,
+      "copay": 0,
+      "outOfPocketMax": 0,
+      "prescriptionCoverage": true,
+      "dentalCoverage": true,
+      "visionCoverage": true
+    },
+    "policyProductId": "bf0be4f0-8c2a-4f81-8924-403cca993a6e",
+    "insuranceCompanyId": "d7176cd3-280f-4901-b395-96f517a7afaf"
+  }
+
+  //joson for create new insurance-company
+  {
+    "name": "EthioNorten Health Insurance",
+    "code": "EHINR",
+    "email": "infoN@ehi.com",
+    "phone": "+251911234567",
+    "address": "Addis Ababa, Ethiopia",
+    "website": "www.ehi.com",
+    "license": "LIC-128",
+    "description": "Leading health insurance provider in Ethiopia",
+    "settings": {
+      "claimProcessingRules": {},
+      "premiumCalculationRules": {}
+    },
+    "adminCredentials": {
+      "username": "gotiom3",
+      "email": "goitom3@gmail.com",
+      "password": "Admin@123",
+      "firstName": "John",
+      "lastName": "Doe",
+      "phoneNumber": "+251911234567"
+    }
+  }
+
+  //joson for create new provider
+  {
+    "username": "provider_username1",
+    "email": "provider11@example.com",
+    "password": "Admin@123",
+    "userType": "PROVIDER",
+    "firstName": "John",
+    "lastName": "Doe",
+    "phoneNumber": "+251911234567",
+    "isActive": true,
+    "facilityName": "City Hospital shul",
+    "category": "HEALTH_FACILITY",
+    "facilityType": "PHARMACY",
+    "name": "City Hospital LLC",
+    "phone": "+251112345678",
+    "address": "123 Medical Drive",
+    "licenseNumber": "MED-123456",
+    "healthFacilityType": "GENERAL_HOSPITAL",
+    "specialties": [
+      "Cardiology",
+      "Pediatrics"
+    ],
+    "services": {},
+    "facilityServices": [
+      "Emergency",
+      "Surgery"
+    ],
+    "active": true,
+    "licenseExpiryDate": "2025-12-31",
+    "taxId": "TAX-123456",
+    "location": {
+      "address": "string",
+      "city": "string",
+      "state": "string",
+      "country": "string",
+      "postalCode": "string"
+    },
+    "operatingHours": [
+      {
+        "day": "string",
+        "openingTime": "string",
+        "closingTime": "string",
+        "isClosed": true
+      }
+    ],
+    "accreditations": {},
+    "admin": {
+      "username": "mom200",
+      "email": "mom@tilahun.com",
+      "password": "Admin@123",
+      "firstName": "John",
+      "lastName": "Doe",
+      "phoneNumber": "+251911234567"
+    }
+  }
+
+  //joson for create new corporate-client
+  {
+    "name": "Vite Technologies Amber",
+    "registrationNumber": "REG-12343",
+    "address": "Addis Ababa, Ethiopia",
+    "phone": "+251911234567",
+    "email": "infambero@vite.com",
+    "website": "www.vite.com",
+    "contactPerson": {
+      "name": "John Doe",
+      "position": "HR Manager",
+      "phone": "+251911234567",
+      "email": "john.doe@company.com"
+    },
+    "insuranceCompanyId": "d7176cd3-280f-4901-b395-96f517a7afaf",
+    "contractDetails": {
+      "startDate": "2025-01-01",
+      "endDate": "2026-01-01",
+      "contractNumber": "CNT-2025-008",
+      "paymentFrequency": "Monthly",
+      "premiumPerEmployee": 1000,
+      "minimumEmployees": 10,
+      "maximumEmployees": 1000
+    },
+    "coveragePlans": [
+      {
+        "serviceType": "Medical",
+        "coverageType": "Outpatient",
+        "coverageDetails": {
+          "percentage": 80,
+          "maxAmount": 1000
+        }
+      }
+    ],
+    "adminCredentials": {
+      "username": "bambo",
+      "email": "bambo@ehi.com",
+      "password": "Admin@123",
+      "firstName": "John",
+      "lastName": "Doe",
+      "phoneNumber": "+251911234567"
+    }
+  }
+
+
+  //joson for create new policy product
+  {
+    "code": "mom1",
+    "name": "mon",
+    "description": "string",
+    "type": "INDIVIDUAL",
+    "status": "DRAFT",
+    "coverageTypes": [
+      "BASIC"
+    ],
+    "waitingPeriod": 0,
+    "maxMembers": 3,
+    "premium": {
+      "baseAmount": 0,
+      "frequency": "MONTHLY",
+      "calculationType": "FIXED",
+      "ageRanges": [
+        {
+          "minAge": 0,
+          "maxAge": 7,
+          "premium": 0
+        }
+      ]
+    },
+    "benefits": [
+      {
+        "serviceType": "GENERAL_CONSULTATION",
+        "coverageLimit": 0,
+        "limitType": "PER_VISIT",
+        "copayment": {
+          "type": "PERCENTAGE",
+          "value": 0
+        }
+      }
+    ],
+    "eligibilityRules": {
+      "minAge": 0,
+      "maxAge": 56,
+      "preExistingConditions": "ACCEPT",
+      "requiredDocuments": [
+        "string"
+      ]
+    },
+    "validFrom": "2025-04-29T19:45:04.882Z",
+    "validTo": "2025-04-29T19:45:04.882Z",
+    "basePremium": 0,
+    "coverageType": "string",
+    "premiumModifiers": {
+      "ageFactors": [
+        {
+          "minAge": 0,
+          "maxAge": 3,
+          "factor": 0
+        }
+      ],
+      "familySizeFactors": [
+        {
+          "size": 5,
+          "factor": 0
+        }
+      ],
+      "loadingFactors": [
+        {
+          "condition": "string",
+          "percentage": 0
+        }
+      ],
+      "discountFactors": [
+        {
+          "type": "string",
+          "percentage": 0
+        }
+      ]
+    }
+  }
